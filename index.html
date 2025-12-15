@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linux File System Simulator v3.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="min-h-screen bg-slate-950 text-slate-100">
+    <!-- Navigation -->
+    <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center"
+            >
+              <i class="fas fa-terminal text-white"></i>
+            </div>
+            <h1
+              class="text-lg font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+            >
+              Linux FS Simulator
+            </h1>
+          </div>
+          <div class="text-sm text-slate-400">Basic Linux Environment</div>
+          <div class="text-sm text-slate-400">Linux Commands</div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto px-4 py-6">
+      <!-- Two Column Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Terminal (2/3 width) -->
+        <div class="lg:col-span-2">
+          <div
+            class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden"
+          >
+            <!-- Terminal Header -->
+            <div
+              class="bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between"
+            >
+              <div class="flex items-center space-x-3">
+                <div>
+                  <h2 class="font-semibold">
+                    <i class="fas fa-terminal text-emerald-400 mr-2"></i>
+                    Terminal
+                  </h2>
+                </div>
+              </div>
+              <div class="text-xs text-slate-500">
+                <span id="current-path" class="text-cyan-300 font-mono"
+                  >/home/user</span
+                >
+              </div>
+            </div>
+
+            <!-- Terminal Output -->
+            <div class="p-4">
+              <div
+                id="terminal-output"
+                class="font-mono bg-black rounded-lg p-4 h-96 overflow-y-auto mb-4 text-sm"
+              >
+                <!-- Output will be generated here -->
+              </div>
+
+              <!-- Command Input -->
+              <div class="flex items-stretch space-x-2">
+                <div
+                  class="flex items-center bg-slate-950 px-3 rounded-l-lg border border-slate-700 border-r-0"
+                >
+                  <span class="text-emerald-400 font-bold">$</span>
+                </div>
+                <input
+                  type="text"
+                  id="command-input"
+                  class="font-mono flex-1 bg-slate-950 border border-slate-700 px-4 py-3 rounded-r-lg focus:outline-none focus:border-emerald-500 text-white placeholder-slate-500"
+                  placeholder="Type command..."
+                  autocomplete="off"
+                  spellcheck="false"
+                  autofocus
+                />
+                <button
+                  id="execute-btn"
+                  class="bg-emerald-600 hover:bg-emerald-700 px-4 rounded-lg font-medium transition-colors"
+                >
+                  <i class="fas fa-play"></i>
+                </button>
+                <button
+                  id="clear-btn"
+                  class="bg-slate-800 hover:bg-slate-700 px-3 rounded-lg transition-colors"
+                  title="Clear terminal"
+                >
+                  <i class="fas fa-broom"></i>
+                </button>
+              </div>
+
+              <!-- Quick Commands -->
+              <div class="flex flex-wrap gap-2 mt-3">
+                <button
+                  class="quick-cmd text-xs px-2 py-1.5 bg-slate-800 hover:bg-slate-700 rounded transition-colors"
+                  data-cmd="ls"
+                >
+                  ls
+                </button>
+                <button
+                  class="quick-cmd text-xs px-2 py-1.5 bg-slate-800 hover:bg-slate-700 rounded transition-colors"
+                  data-cmd="ls -la"
+                >
+                  ls -la
+                </button>
+                <button
+                  class="quick-cmd text-xs px-2 py-1.5 bg-slate-800 hover:bg-slate-700 rounded transition-colors"
+                  data-cmd="pwd"
+                >
+                  pwd
+                </button>
+                <button
+                  class="quick-cmd text-xs px-2 py-1.5 bg-slate-800 hover:bg-slate-700 rounded transition-colors"
+                  data-cmd="help"
+                >
+                  help
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <!-- File System Stats -->
+          <div class="bg-slate-900 rounded-xl border border-slate-800 p-4">
+            <h3 class="font-semibold mb-3 flex items-center">
+              <i class="fas fa-chart-bar text-cyan-400 mr-2"></i>
+              File System Stats
+            </h3>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-slate-950 p-3 rounded-lg">
+                <div class="text-2xl font-bold text-emerald-400" id="dir-count">
+                  0
+                </div>
+                <div class="text-xs text-slate-400 mt-1">Directories</div>
+              </div>
+              <div class="bg-slate-950 p-3 rounded-lg">
+                <div class="text-2xl font-bold text-cyan-400" id="file-count">
+                  0
+                </div>
+                <div class="text-xs text-slate-400 mt-1">Files</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Directory Tree -->
+          <div
+            class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden"
+          >
+            <div class="bg-slate-950 px-4 py-3 border-b border-slate-800">
+              <h3 class="font-semibold flex items-center">
+                <i class="fas fa-folder-tree text-amber-400 mr-2"></i>
+                Directory Tree
+              </h3>
+            </div>
+            <div class="p-4">
+              <div id="directory-tree" class="h-64 overflow-y-auto">
+                <!-- Tree will be rendered here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- JavaScript Files -->
+    <script src="filesystem.js"></script>
+    <script src="terminal.js"></script>
+  </body>
+</html>
