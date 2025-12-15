@@ -1,0 +1,64 @@
+/* Custom styles for Linux Simulator */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+.font-mono {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* Terminal scrollbar */
+#terminal-output::-webkit-scrollbar {
+    width: 8px;
+}
+
+#terminal-output::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+#terminal-output::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+}
+
+#terminal-output::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* Typewriter cursor */
+.typewriter {
+    display: inline-block;
+    border-right: 2px solid #10b981;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { border-color: #10b981; }
+    50% { border-color: transparent; }
+}
+
+/* Fade in animation */
+.fade-in {
+    animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Directory tree styling */
+.directory-item {
+    padding: 4px 8px;
+    margin: 2px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.directory-item:hover {
+    background-color: rgba(30, 41, 59, 0.5);
+}
+
+.directory-item.current {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-left: 3px solid #10b981;
+}
