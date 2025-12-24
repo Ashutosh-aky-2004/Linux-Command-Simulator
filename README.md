@@ -1,4 +1,4 @@
-Live url: https://ashutosh-aky-2004.github.io/Linux-Command-Simulator/
+Live url: https://ashutosh-kumar-2004.github.io/Linux-Command-Simulator/
 
 # Linux File System Simulator v3.0
 
